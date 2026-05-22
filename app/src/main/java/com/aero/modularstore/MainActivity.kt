@@ -9,39 +9,35 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.aero.modularstore.navigation.AppNavigation
+import com.aero.modularstore.ui.theme.AppThemeMode
 import com.aero.modularstore.ui.theme.ModularStoreTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+//        enableEdgeToEdge()
         setContent {
-            ModularStoreTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+            var currentTheme by remember {
+                mutableStateOf(AppThemeMode.BLUE)
+            }
+            ModularStoreTheme(
+                themeMode = currentTheme
+            ) {
+                AppNavigation {
+                    currentTheme = when(it) {
+                        "GREEN" -> AppThemeMode.GREEN
+                        "PURPLE" -> AppThemeMode.PURPLE
+                        else -> AppThemeMode.BLUE
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ModularStoreTheme {
-        Greeting("Android")
     }
 }
