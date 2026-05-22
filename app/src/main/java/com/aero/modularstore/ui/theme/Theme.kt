@@ -33,22 +33,29 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
+enum class AppThemeMode {
+    BLUE,
+    GREEN,
+    PURPLE
+}
+
 @Composable
 fun ModularStoreTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    themeMode: AppThemeMode,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+    val colorScheme = when(themeMode) {
+        AppThemeMode.BLUE -> lightColorScheme(
+            primary = BluePrimary
+        )
+        AppThemeMode.GREEN -> lightColorScheme(
+            primary = GreenPrimary
+        )
+        AppThemeMode.PURPLE -> lightColorScheme(
+            primary = PurplePrimary
+        )
     }
+
 
     MaterialTheme(
         colorScheme = colorScheme,
