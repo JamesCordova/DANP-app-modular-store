@@ -17,44 +17,48 @@ import com.aero.modularstore.ui.components.AppToolbar
 import com.aero.modularstore.ui.screens.home.components.CategoryFilterButtons
 import com.aero.modularstore.ui.screens.home.components.ProductCard
 import com.aero.modularstore.ui.screens.home.components.ThemeSelector
-import com.aero.modularstore.ui.screens.home.HomeViewModel
 
 @Composable
 fun HomeScreen(
     navController: NavController,
-    onThemeChange: (String) -> Unit
+    onThemeChange: (String) -> Unit,
+    homeViewModel: HomeViewModel = viewModel()
 ) {
-    val homeViewModel: HomeViewModel = viewModel()
     val uiState by homeViewModel.uiState.collectAsState()
 
     Column(
-        modifier = Modifier.Companion.fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         AppToolbar(
             title = "Modular Store"
         )
-        Spacer(modifier = Modifier.Companion.height(12.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         ThemeSelector {
             onThemeChange(it.name)
         }
-        Spacer(modifier = Modifier.Companion.height(12.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         CategoryFilterButtons(
             currentFilter = uiState.selectedCategory,
             onFilterChange = homeViewModel::onCategorySelected
         )
-        Spacer(modifier = Modifier.Companion.height(12.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         LazyColumn {
             items(
                 items = uiState.filteredProducts,
                 key = { it.id }
             ) { product ->
                 ProductCard(
-                    product = product
-                ) {
-                    navController.navigate(
-                        "detail/${it.name}/${it.price}"
-                    )
-                }
+                    product = product,
+                    onViewDetail = {
+                        navController.navigate(
+                            "detail/${it.id}"
+                        )
+                    },
+                    isFavorite = homeViewModel.isFavorite(product.id),
+                    onFavoriteToggle = { productId ->
+                        homeViewModel.toggleFavorite(productId)
+                    }
+                )
             }
         }
     }
