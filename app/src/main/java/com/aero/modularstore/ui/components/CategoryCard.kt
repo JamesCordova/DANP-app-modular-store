@@ -29,7 +29,7 @@ fun CategoryFilterButtons(
 			.fillMaxWidth()
 			.height(48.dp)
 			.clip(RoundedCornerShape(percent = 50))
-			.background(MaterialTheme.colorScheme.secondaryContainer),
+			.background(MaterialTheme.colorScheme.surfaceDim),
 		horizontalArrangement = Arrangement.spacedBy(8.dp)
 	) {
 		ProductCategory.entries.forEach { category ->
@@ -57,12 +57,12 @@ private fun CategoryFilterButton(
 			containerColor = if (isSelected) {
 				MaterialTheme.colorScheme.primary
 			} else {
-				MaterialTheme.colorScheme.secondaryContainer
+				MaterialTheme.colorScheme.surfaceDim
 			},
 			contentColor = if (isSelected) {
 				MaterialTheme.colorScheme.onPrimary
 			} else {
-				MaterialTheme.colorScheme.onSecondaryContainer
+				MaterialTheme.colorScheme.onSurface
 			}
 		)
 	) {
