@@ -5,7 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.aero.modularstore.ui.screens.DetailScreen
-import com.aero.modularstore.ui.screens.HomeScreen
+import com.aero.modularstore.ui.screens.home.HomeScreen
 
 @Composable
 fun AppNavigation(

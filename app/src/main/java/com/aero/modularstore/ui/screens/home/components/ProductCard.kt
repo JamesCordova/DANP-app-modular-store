@@ -1,4 +1,4 @@
-package com.aero.modularstore.ui.components
+package com.aero.modularstore.ui.screens.home.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
