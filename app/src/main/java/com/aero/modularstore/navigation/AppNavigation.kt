@@ -1,17 +1,21 @@
 package com.aero.modularstore.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.aero.modularstore.ui.screens.productDetail.DetailScreen
 import com.aero.modularstore.ui.screens.home.HomeScreen
+import com.aero.modularstore.ui.screens.home.HomeViewModel
+import com.aero.modularstore.ui.screens.productDetail.DetailScreen
 
 @Composable
 fun AppNavigation(
     onThemeChange: (String) -> Unit
 ) {
     val navController = rememberNavController()
+    val homeViewModel: HomeViewModel = viewModel()
+
     NavHost(
         navController = navController,
         startDestination = "home"
@@ -19,7 +23,8 @@ fun AppNavigation(
         composable("home") {
             HomeScreen(
                 navController,
-                onThemeChange
+                onThemeChange,
+                homeViewModel
             )
         }
         composable(
@@ -29,7 +34,8 @@ fun AppNavigation(
                 backStack.arguments?.getString("productId")?.toIntOrNull() ?: 0
             DetailScreen(
                 productId = productId,
-                onBack = { navController.popBackStack() }
+                onBack = { navController.popBackStack() },
+                homeViewModel = homeViewModel
             )
         }
     }

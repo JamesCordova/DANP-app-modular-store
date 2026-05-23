@@ -25,9 +25,9 @@ import com.aero.modularstore.ui.screens.productDetail.components.PriceSection
 @Composable
 fun DetailScreen(
     productId: Int,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    homeViewModel: HomeViewModel = viewModel()
 ) {
-    val homeViewModel: HomeViewModel = viewModel()
     val uiState by homeViewModel.uiState.collectAsState()
 
     val product = uiState.products.find { it.id == productId }
