@@ -9,7 +9,6 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -36,7 +35,8 @@ private val LightColorScheme = lightColorScheme(
 enum class AppThemeMode {
     BLUE,
     GREEN,
-    PURPLE
+    PURPLE,
+    BLACK
 }
 
 @Composable
@@ -53,6 +53,9 @@ fun ModularStoreTheme(
         )
         AppThemeMode.PURPLE -> lightColorScheme(
             primary = PurplePrimary
+        )
+        AppThemeMode.BLACK -> lightColorScheme(
+            primary = BlackPrimary
         )
     }
 
