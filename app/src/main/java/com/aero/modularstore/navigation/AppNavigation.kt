@@ -23,15 +23,13 @@ fun AppNavigation(
             )
         }
         composable(
-            "detail/{name}/{price}"
+            "detail/{productId}"
         ) { backStack ->
-            val name =
-                backStack.arguments?.getString("name") ?: ""
-            val price =
-                backStack.arguments?.getString("price") ?: ""
+            val productId =
+                backStack.arguments?.getString("productId")?.toIntOrNull() ?: 0
             DetailScreen(
-                name,
-                price
+                productId = productId,
+                onBack = { navController.popBackStack() }
             )
         }
     }
