@@ -1,10 +1,21 @@
 package com.aero.modularstore.navigation
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.aero.modularstore.ui.components.AppBottomNavigationBar
+import com.aero.modularstore.ui.components.NavScreens
+import com.aero.modularstore.ui.screens.favorites.FavoritesScreen
 import com.aero.modularstore.ui.screens.home.HomeScreen
 import com.aero.modularstore.ui.screens.home.HomeViewModel
 import com.aero.modularstore.ui.screens.productDetail.DetailScreen
@@ -15,28 +26,62 @@ fun AppNavigation(
 ) {
     val navController = rememberNavController()
     val homeViewModel: HomeViewModel = viewModel()
+    var currentRoute: String? by rememberSaveable { mutableStateOf(NavScreens.HOME.route) }
 
-    NavHost(
-        navController = navController,
-        startDestination = "home"
-    ) {
-        composable("home") {
-            HomeScreen(
-                navController,
-                onThemeChange,
-                homeViewModel
-            )
+    Scaffold(
+        bottomBar = {
+            if (!isDetailScreen(currentRoute)) {
+                AppBottomNavigationBar(
+                    currentRoute = currentRoute,
+                    onNavigate = { route ->
+                        navController.navigate(route) {
+                            popUpTo(navController.graph.startDestinationId)
+                            launchSingleTop = true
+                        }
+                        currentRoute = route
+                    }
+                )
+            }
         }
-        composable(
-            "detail/{productId}"
-        ) { backStack ->
-            val productId =
-                backStack.arguments?.getString("productId")?.toIntOrNull() ?: 0
-            DetailScreen(
-                productId = productId,
-                onBack = { navController.popBackStack() },
-                homeViewModel = homeViewModel
-            )
+    ) { paddingValues ->
+        NavHost(
+            navController = navController,
+            startDestination = NavScreens.HOME.route,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
+            composable(NavScreens.HOME.route) {
+                currentRoute = NavScreens.HOME.route
+                HomeScreen(
+                    navController,
+                    onThemeChange,
+                    homeViewModel
+                )
+            }
+            composable(NavScreens.FAVORITES.route) {
+                currentRoute = NavScreens.FAVORITES.route
+                FavoritesScreen(
+                    navController,
+                    homeViewModel
+                )
+            }
+            composable(
+                "detail/{productId}"
+            ) { backStack ->
+                val productId =
+                    backStack.arguments?.getString("productId")?.toIntOrNull() ?: 0
+                currentRoute = null
+                DetailScreen(
+                    productId = productId,
+                    onBack = { navController.popBackStack() },
+                    homeViewModel = homeViewModel
+                )
+            }
         }
     }
+}
+
+private fun isDetailScreen(route: String?): Boolean {
+    return route == null || route.startsWith("detail/")
 }
