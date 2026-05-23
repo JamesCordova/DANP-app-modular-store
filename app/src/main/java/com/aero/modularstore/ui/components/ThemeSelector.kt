@@ -30,5 +30,10 @@ fun ThemeSelector(
         ) {
             onThemeSelected(AppThemeMode.PURPLE)
         }
+        AppButton(
+            text = "Black"
+        ) {
+            onThemeSelected(AppThemeMode.BLACK)
+        }
     }
 }

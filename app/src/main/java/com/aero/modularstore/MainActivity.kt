@@ -34,6 +34,7 @@ class MainActivity : ComponentActivity() {
                     currentTheme = when(it) {
                         "GREEN" -> AppThemeMode.GREEN
                         "PURPLE" -> AppThemeMode.PURPLE
+                        "BLACK" -> AppThemeMode.BLACK
                         else -> AppThemeMode.BLUE
                     }
                 }
