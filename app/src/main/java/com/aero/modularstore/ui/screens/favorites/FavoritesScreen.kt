@@ -12,7 +12,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.aero.modularstore.ui.components.AppToolbar
 import com.aero.modularstore.ui.screens.favorites.components.EmptyFavoritesSection
 import com.aero.modularstore.ui.screens.home.HomeViewModel
 import com.aero.modularstore.ui.screens.home.components.ProductCard
@@ -31,10 +30,7 @@ fun FavoritesScreen(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        AppToolbar(
-            title = "Mis Favoritos"
-        )
-
+        Spacer(modifier = Modifier.height(12.dp))
         if (favoriteProducts.isEmpty()) {
             EmptyFavoritesSection()
         } else {

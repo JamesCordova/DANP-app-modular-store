@@ -10,7 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
 enum class NavScreens(val label: String, val route: String) {
-    HOME("Tienda", "home"),
+    HOME("Modular Store", "home"),
     FAVORITES("Favoritos", "favorites")
 }
 

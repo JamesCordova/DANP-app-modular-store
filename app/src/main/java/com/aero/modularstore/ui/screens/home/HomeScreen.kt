@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.aero.modularstore.ui.components.AppToolbar
 import com.aero.modularstore.ui.screens.home.components.CategoryFilterButtons
 import com.aero.modularstore.ui.screens.home.components.ProductCard
 import com.aero.modularstore.ui.screens.home.components.ThemeSelector
@@ -29,9 +28,6 @@ fun HomeScreen(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        AppToolbar(
-            title = "Modular Store"
-        )
         Spacer(modifier = Modifier.height(12.dp))
         ThemeSelector {
             onThemeChange(it.name)
