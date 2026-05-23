@@ -17,7 +17,7 @@ import com.aero.modularstore.ui.components.AppToolbar
 import com.aero.modularstore.ui.screens.home.components.CategoryFilterButtons
 import com.aero.modularstore.ui.screens.home.components.ProductCard
 import com.aero.modularstore.ui.screens.home.components.ThemeSelector
-import com.aero.modularstore.ui.viewmodels.HomeViewModel
+import com.aero.modularstore.ui.screens.home.HomeViewModel
 
 @Composable
 fun HomeScreen(

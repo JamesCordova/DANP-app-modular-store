@@ -1,4 +1,4 @@
-package com.aero.modularstore.ui.screens
+package com.aero.modularstore.ui.screens.productDetail
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -21,13 +21,13 @@ fun DetailScreen(
             title = "Detalle"
         )
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.Companion.padding(16.dp)
         ) {
             Text(
                 text = name,
                 style = MaterialTheme.typography.headlineMedium
             )
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.Companion.height(12.dp))
             Text(
                 text = "Precio: $$price",
                 style = MaterialTheme.typography.titleLarge
