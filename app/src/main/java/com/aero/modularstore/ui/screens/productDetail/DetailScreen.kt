@@ -13,6 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.aero.modularstore.navigation.NavigationCallbacks
+import com.aero.modularstore.repository.CartRepository
 import com.aero.modularstore.ui.screens.productDetail.components.AddToCartButton
 import com.aero.modularstore.ui.screens.productDetail.components.ProductDescriptionSection
 import com.aero.modularstore.ui.screens.productDetail.components.ProductInfoSection
@@ -49,6 +50,11 @@ fun DetailScreen(
         PriceSection(product.price, product.id)
         Spacer(modifier = Modifier.height(32.dp))
 
-        AddToCartButton(onClick = { })
+        AddToCartButton(
+            onClick = {
+                CartRepository.addToCart(product)
+                navigationCallbacks.navigateToCart()
+            }
+        )
     }
 }
