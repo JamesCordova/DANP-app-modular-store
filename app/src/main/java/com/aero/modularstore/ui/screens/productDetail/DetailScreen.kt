@@ -12,8 +12,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.aero.modularstore.ui.screens.home.HomeViewModel
+import com.aero.modularstore.navigation.NavigationCallbacks
 import com.aero.modularstore.ui.screens.productDetail.components.AddToCartButton
 import com.aero.modularstore.ui.screens.productDetail.components.ProductDescriptionSection
 import com.aero.modularstore.ui.screens.productDetail.components.ProductInfoSection
@@ -23,12 +22,12 @@ import com.aero.modularstore.ui.screens.productDetail.components.PriceSection
 @Composable
 fun DetailScreen(
     productId: Int,
-    onBack: () -> Unit,
-    homeViewModel: HomeViewModel = viewModel()
+    navigationCallbacks: NavigationCallbacks,
+    detailViewModel: DetailViewModel,
+    onFavoriteToggle: (Int) -> Unit
 ) {
-    val uiState by homeViewModel.uiState.collectAsState()
-
-    val product = uiState.products.find { it.id == productId }
+    val uiState by detailViewModel.uiState.collectAsState()
+    val product = uiState.getProduct(productId)
 
     if (product == null) {
         ProductNotFoundSection()

@@ -11,17 +11,16 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
+import com.aero.modularstore.navigation.NavigationCallbacks
 import com.aero.modularstore.ui.screens.home.components.CategoryFilterButtons
 import com.aero.modularstore.ui.screens.home.components.ProductCard
 import com.aero.modularstore.ui.screens.home.components.ThemeSelector
 
 @Composable
 fun HomeScreen(
-    navController: NavController,
+    navigationCallbacks: NavigationCallbacks,
     onThemeChange: (String) -> Unit,
-    homeViewModel: HomeViewModel = viewModel()
+    homeViewModel: HomeViewModel
 ) {
     val uiState by homeViewModel.uiState.collectAsState()
 
@@ -45,10 +44,8 @@ fun HomeScreen(
             ) { product ->
                 ProductCard(
                     product = product,
-                    onViewDetail = {
-                        navController.navigate(
-                            "detail/${it.id}"
-                        )
+                    onViewDetail = { product ->
+                        navigationCallbacks.navigateToDetail(product.id)
                     },
                     isFavorite = homeViewModel.isFavorite(product.id),
                     onFavoriteToggle = { productId ->

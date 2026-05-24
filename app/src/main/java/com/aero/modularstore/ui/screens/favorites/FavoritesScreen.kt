@@ -11,21 +11,18 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import com.aero.modularstore.navigation.NavigationCallbacks
 import com.aero.modularstore.ui.screens.favorites.components.EmptyFavoritesSection
-import com.aero.modularstore.ui.screens.home.HomeViewModel
 import com.aero.modularstore.ui.screens.home.components.ProductCard
 
 @Composable
 fun FavoritesScreen(
-    navController: NavController,
-    homeViewModel: HomeViewModel
+    navigationCallbacks: NavigationCallbacks,
+    favoritesViewModel: FavoritesViewModel,
+    onFavoriteToggle: (Int) -> Unit
 ) {
-    val uiState by homeViewModel.uiState.collectAsState()
-
-    val favoriteProducts = uiState.products.filter { product ->
-        uiState.favoriteProductIds.contains(product.id)
-    }
+    val uiState by favoritesViewModel.uiState.collectAsState()
+    val favoriteProducts = uiState.favoriteProducts
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -42,14 +39,12 @@ fun FavoritesScreen(
                 ) { product ->
                     ProductCard(
                         product = product,
-                        onViewDetail = {
-                            navController.navigate(
-                                "detail/${it.id}"
-                            )
+                        onViewDetail = { product ->
+                            navigationCallbacks.navigateToDetail(product.id)
                         },
-                        isFavorite = uiState.favoriteProductIds.contains(product.id),
+                        isFavorite = favoritesViewModel.isFavorite(product.id),
                         onFavoriteToggle = { productId ->
-                            homeViewModel.toggleFavorite(productId)
+                            onFavoriteToggle(productId)
                         }
                     )
                 }
