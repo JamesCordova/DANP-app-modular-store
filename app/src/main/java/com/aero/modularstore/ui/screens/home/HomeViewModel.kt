@@ -12,6 +12,7 @@ data class HomeUiState(
     val products: List<Product> = defaultProducts,
     val selectedCategory: ProductCategory = ProductCategory.ALL,
     val favoriteProductIds: List<Int> = emptyList(),
+    val searchQuery: String = "",
     val currentUser: User = User(
         id = 1,
         name = "Usuario Demo",
@@ -20,10 +21,21 @@ data class HomeUiState(
     )
 ) {
 	val filteredProducts: List<Product>
-		get() = if (selectedCategory == ProductCategory.ALL) {
-			products
-		} else {
-			products.filter { it.category == selectedCategory }
+		get() {
+			val categoryFiltered = if (selectedCategory == ProductCategory.ALL) {
+				products
+			} else {
+				products.filter { it.category == selectedCategory }
+			}
+
+			return if (searchQuery.isBlank()) {
+				categoryFiltered
+			} else {
+				categoryFiltered.filter {
+					it.name.contains(searchQuery, ignoreCase = true) ||
+						it.description.contains(searchQuery, ignoreCase = true)
+				}
+			}
 		}
 
 	companion object {
@@ -66,6 +78,10 @@ class HomeViewModel : ViewModel() {
 
 	fun onCategorySelected(category: ProductCategory) {
 		_uiState.value = _uiState.value.copy(selectedCategory = category)
+	}
+
+	fun onSearchQueryChanged(query: String) {
+		_uiState.value = _uiState.value.copy(searchQuery = query)
 	}
 
 	fun toggleFavorite(productId: Int) {

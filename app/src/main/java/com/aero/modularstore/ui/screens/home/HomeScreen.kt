@@ -14,13 +14,14 @@ import androidx.compose.ui.unit.dp
 import com.aero.modularstore.navigation.NavigationCallbacks
 import com.aero.modularstore.ui.screens.home.components.CategoryFilterButtons
 import com.aero.modularstore.ui.screens.home.components.ProductCard
+import com.aero.modularstore.ui.screens.home.components.SearchBar
 import com.aero.modularstore.ui.screens.home.components.ThemeSelector
 
 @Composable
 fun HomeScreen(
     navigationCallbacks: NavigationCallbacks,
     onThemeChange: (String) -> Unit,
-    homeViewModel: HomeViewModel
+    homeViewModel: HomeViewModel,
 ) {
     val uiState by homeViewModel.uiState.collectAsState()
 
@@ -31,6 +32,11 @@ fun HomeScreen(
         ThemeSelector {
             onThemeChange(it.name)
         }
+        Spacer(modifier = Modifier.height(12.dp))
+        SearchBar(
+            query = uiState.searchQuery,
+            onQueryChange = homeViewModel::onSearchQueryChanged
+        )
         Spacer(modifier = Modifier.height(12.dp))
         CategoryFilterButtons(
             currentFilter = uiState.selectedCategory,
@@ -48,9 +54,7 @@ fun HomeScreen(
                         navigationCallbacks.navigateToDetail(product.id)
                     },
                     isFavorite = homeViewModel.isFavorite(product.id),
-                    onFavoriteToggle = { productId ->
-                        homeViewModel.toggleFavorite(productId)
-                    }
+                    onFavoriteToggle = homeViewModel::toggleFavorite
                 )
             }
         }
